@@ -26,7 +26,7 @@ const App = () => {
     if (
       tictacArray[0] === tictacArray[1] &&
       tictacArray[0] === tictacArray[2] &&
-      tictacArraya[0] !== ''
+      tictacArray[0] !== ''
     ) {
       setWinMessage(tictacArray[0] + ' has won!');
     } else if (
@@ -71,6 +71,18 @@ const App = () => {
       tictacArray[2] !== ''
     ) {
       setWinMessage(tictacArray[2] + ' has won!');
+    } else if (
+      tictacArray[0] !== '' &&
+      tictacArray[1] !== '' &&
+      tictacArray[2] !== '' &&
+      tictacArray[3] !== '' &&
+      tictacArray[4] !== '' &&
+      tictacArray[5] !== '' &&
+      tictacArray[6] !== '' &&
+      tictacArray[7] !== '' &&
+      tictacArray[8] !== ''
+    ) {
+      setWinMessage('the game is drawn!!!');
     }
   };
 
@@ -81,7 +93,7 @@ const App = () => {
         type: 'success',
       });
     }
-    if (tictacArray[0] === '') {
+    if (tictacArray[index] === '') {
       tictacArray[index] = isCross ? 'cross' : 'circle';
       setIsCross(!isCross);
     } else {
@@ -89,18 +101,33 @@ const App = () => {
         type: 'error',
       });
     }
+    findWinner();
   };
 
   //main game logic
   return (
     <Container className="p-5">
+      <ToastContainer position="bottom-center"></ToastContainer>
       <Row>
-        <col md={6} className="offset-md-3">
-          {
-            //to display the winner
-          }
-          <div className="grid">{tictacArray.map()}</div>
-        </col>
+        <Col md={6} className="offset-md-3">
+          {winMessage ? (
+            <div>
+              <h1 className="text-center">{winMessage}</h1>
+              <Button onClick={playAgain}>Play Again</Button>
+            </div>
+          ) : (
+            <h1>{isCross ? "cross's Turn" : "circle's Turn"}</h1>
+          )}
+          <div className="grid">
+            {tictacArray.map((value, index) => (
+              <Card onClick={() => changeItem(index)}>
+                <CardBody className="box">
+                  <Icons choice={tictacArray[index]} />
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        </Col>
       </Row>
     </Container>
   );
