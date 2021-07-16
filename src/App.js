@@ -4,7 +4,7 @@ import Icons from './Icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 //importing reactstrap
-import { Button } from 'reactstrap';
+import { Button, Container, Card, CardBody, Row, Col } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 //importing own styles
 import './style.css';
@@ -14,12 +14,14 @@ const App = () => {
   let [isCross, setIsCross] = useState(true);
   let [winMessage, setWinMessage] = useState('');
 
+  //reset the game for a new one
   const playAgain = () => {
     setIsCross(true);
     setWinMessage('');
     tictacArray.fill('');
   };
 
+  //checking for the winner
   const findWinner = () => {
     if (
       tictacArray[0] === tictacArray[1] &&
@@ -69,15 +71,38 @@ const App = () => {
       tictacArray[2] !== ''
     ) {
       setWinMessage(tictacArray[2] + ' has won!');
-    } else {
-      setWinMessage('the game is drawn!');
     }
   };
 
+  //changing item on the board
+  const changeItem = (index) => {
+    if (winMessage) {
+      return toast('The game is over!! please start a new game..', {
+        type: 'success',
+      });
+    }
+    if (tictacArray[0] === '') {
+      tictacArray[index] = isCross ? 'cross' : 'circle';
+      setIsCross(!isCross);
+    } else {
+      return toast('place is already filled please select another', {
+        type: 'error',
+      });
+    }
+  };
+
+  //main game logic
   return (
-    <div>
-      <Icons choice="sdhgfsvk" />
-    </div>
+    <Container className="p-5">
+      <Row>
+        <col md={6} className="offset-md-3">
+          {
+            //to display the winner
+          }
+          <div className="grid">{tictacArray.map()}</div>
+        </col>
+      </Row>
+    </Container>
   );
 };
 
